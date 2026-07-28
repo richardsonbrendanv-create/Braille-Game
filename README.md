@@ -13,6 +13,10 @@ exist on Windows.
 2. Open the extracted `Braille-Game` folder.
 3. Double-click **`scan-ledger.cmd`**.
 
+Do not run the launcher from inside the ZIP preview. Choose **Extract All** first.
+The app page contains its own secured styles and script, so Windows can open it
+reliably without depending on separately extracted asset files.
+
 Alternatively, open PowerShell inside the extracted folder and run:
 
 ```powershell
