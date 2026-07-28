@@ -1,7 +1,11 @@
-# Scan Ledger
+# Northstar Market Dashboard
 
-Scan Ledger is a private, local device-scan journal. Records remain in your
-browser's local storage unless you explicitly export them.
+Northstar is a polished, local-first stock market and portfolio dashboard. It
+tracks holdings, highlights the strongest and weakest daily movers, and presents
+scenario-based signals tied to recent market catalysts. Holdings remain in your
+browser's local storage. The dashboard attempts to load the latest available
+quotes and falls back to a bundled offline snapshot when a quote service is not
+reachable.
 
 ## Windows
 
@@ -11,7 +15,7 @@ exist on Windows.
 
 1. Download this repository and extract the ZIP file.
 2. Open the extracted `Braille-Game` folder.
-3. Double-click **`scan-ledger.cmd`**.
+3. Double-click **`scan-ledger.cmd`** to open Northstar.
 
 Do not run the launcher from inside the ZIP preview. Choose **Extract All** first.
 The app is a single, self-contained `index.html`, so Windows can open it
@@ -24,7 +28,7 @@ Alternatively, open PowerShell inside the extracted folder and run:
 ```
 
 Do not run `./scan-ledger` in PowerShell; that file is the macOS/Linux launcher.
-The Windows launcher opens the local HTML app directly and does not require
+The Windows launcher opens the Northstar HTML app directly and does not require
 Python or an installation step.
 
 ## macOS and Linux
