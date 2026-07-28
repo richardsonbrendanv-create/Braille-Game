@@ -14,8 +14,8 @@ exist on Windows.
 3. Double-click **`scan-ledger.cmd`**.
 
 Do not run the launcher from inside the ZIP preview. Choose **Extract All** first.
-The app page contains its own secured styles and script, so Windows can open it
-reliably without depending on separately extracted asset files.
+The app is a single, self-contained `index.html`, so Windows can open it
+reliably without separate asset files or an installation.
 
 Alternatively, open PowerShell inside the extracted folder and run:
 
@@ -37,7 +37,7 @@ From a terminal opened in the downloaded repository folder, run:
 
 ## Browser
 
-On Windows, the launcher opens `scan-ledger.html` directly and its black window
+On Windows, the launcher opens `index.html` directly and its black window
 closes after a few seconds. That is expected; the app remains open in the
 browser. On macOS and Linux, the launcher opens <http://127.0.0.1:8765/>; keep
 the terminal open and press **Ctrl+C** to stop it.

@@ -9,12 +9,10 @@ import webbrowser
 
 ROOT = Path(__file__).resolve().parent
 FILES = {
-    "/": ROOT / "scan-ledger.html",
-    "/scan-ledger.html": ROOT / "scan-ledger.html",
-    "/assets/scan-ledger.css": ROOT / "assets/scan-ledger.css",
-    "/assets/scan-ledger.js": ROOT / "assets/scan-ledger.js",
+    "/": ROOT / "index.html",
+    "/scan-ledger.html": ROOT / "index.html",
 }
-CSP = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; connect-src 'none'"
+CSP = "default-src 'none'; script-src 'sha256-O36FkwL/9J+GlVbAuW1FEKj85RQtzORBLrvpUu6MD2s='; style-src 'sha256-idL4LsGlnuUQsbXfhVH0osgTrOvGtPVtXo6jA3+iE8o='; img-src data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; connect-src 'none'"
 
 
 class Handler(BaseHTTPRequestHandler):

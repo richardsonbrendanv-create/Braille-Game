@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 
-if not exist "%~dp0scan-ledger.html" (
-  echo ERROR: scan-ledger.html was not found.
+if not exist "%~dp0index.html" (
+  echo ERROR: index.html was not found.
   echo Keep this launcher in the extracted Scan Ledger folder.
   echo.
   pause
@@ -11,10 +11,10 @@ if not exist "%~dp0scan-ledger.html" (
 )
 
 echo Opening Scan Ledger in your default browser...
-start "" "%~dp0scan-ledger.html"
+start "" "%~dp0index.html"
 if errorlevel 1 (
   echo ERROR: Windows could not open Scan Ledger.
-  echo Open scan-ledger.html manually from this folder.
+  echo Open index.html manually from this folder.
   echo.
   pause
   exit /b 1
