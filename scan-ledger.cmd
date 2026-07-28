@@ -2,18 +2,24 @@
 setlocal
 cd /d "%~dp0"
 
-where py >nul 2>&1
-if %errorlevel% equ 0 (
-  py -3 "%~dp0scan-ledger" %*
-  exit /b %errorlevel%
+if not exist "%~dp0scan-ledger.html" (
+  echo ERROR: scan-ledger.html was not found.
+  echo Keep this launcher in the extracted Scan Ledger folder.
+  echo.
+  pause
+  exit /b 1
 )
 
-where python >nul 2>&1
-if %errorlevel% equ 0 (
-  python "%~dp0scan-ledger" %*
-  exit /b %errorlevel%
+echo Opening Scan Ledger in your default browser...
+start "" "%~dp0scan-ledger.html"
+if errorlevel 1 (
+  echo ERROR: Windows could not open Scan Ledger.
+  echo Open scan-ledger.html manually from this folder.
+  echo.
+  pause
+  exit /b 1
 )
 
-echo Scan Ledger needs Python 3, but Python was not found.
-echo Install it from https://www.python.org/downloads/windows/ and try again.
-exit /b 1
+echo Scan Ledger opened successfully. You can close this window.
+timeout /t 3 /nobreak >nul
+exit /b 0

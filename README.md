@@ -20,8 +20,8 @@ Alternatively, open PowerShell inside the extracted folder and run:
 ```
 
 Do not run `./scan-ledger` in PowerShell; that file is the macOS/Linux launcher.
-Python 3 is required. The launcher displays a direct installation link if it
-cannot find Python.
+The Windows launcher opens the local HTML app directly and does not require
+Python or an installation step.
 
 ## macOS and Linux
 
@@ -33,10 +33,12 @@ From a terminal opened in the downloaded repository folder, run:
 
 ## Browser
 
-The launcher opens <http://127.0.0.1:8765/> automatically. Keep its terminal
-window open while using the app, and press **Ctrl+C** to stop it.
+On Windows, the launcher opens `scan-ledger.html` directly and its black window
+closes after a few seconds. That is expected; the app remains open in the
+browser. On macOS and Linux, the launcher opens <http://127.0.0.1:8765/>; keep
+the terminal open and press **Ctrl+C** to stop it.
 
-Options are available on every platform:
+The following server options are available on macOS and Linux:
 
 ```text
 --port 9000       Use another local port
