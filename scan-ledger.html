@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A private, local-first device scan activity journal.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; connect-src 'none'">
+  <title>Scan Ledger — Device activity journal</title>
+  <link rel="stylesheet" href="assets/scan-ledger.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark" aria-hidden="true">⌁</span> Scan Ledger</div>
+    <nav class="nav" aria-label="Main navigation"><button class="active"><span>⌂</span>Overview</button><button><span>⌁</span>Scan history</button><button><span>▣</span>Devices</button><button><span>⚙</span>Settings</button></nav>
+    <div class="sidecard"><b>Your data stays yours.</b><small>Scan entries are stored locally in this browser and never uploaded.</small><button id="exportSide">Export my data</button></div>
+  </aside>
+  <main>
+    <header class="top"><div><div class="eyebrow" id="todayLabel"></div><h1>Device overview</h1></div><div class="top-actions"><button class="btn" id="exportTop">↓&nbsp; Export</button><button class="btn primary" id="addScan">＋&nbsp; Log a scan</button></div></header>
+    <section class="stats" aria-label="Scan summary">
+      <article class="card stat"><div class="stat-head"><span>Total scans</span><span class="stat-icon">⌁</span></div><strong id="total">0</strong><div class="trend"><em id="weekCount">0 this week</em> · all devices</div></article>
+      <article class="card stat"><div class="stat-head"><span>Devices tracked</span><span class="stat-icon">▣</span></div><strong id="devices">0</strong><div class="trend">Across your local network</div></article>
+      <article class="card stat"><div class="stat-head"><span>Needs review</span><span class="stat-icon">!</span></div><strong id="review">0</strong><div class="trend">Flagged scan events</div></article>
+      <article class="card stat"><div class="stat-head"><span>Last scan</span><span class="stat-icon">◷</span></div><strong id="lastScan" class="last-scan">—</strong><div class="trend" id="lastDevice">No activity yet</div></article>
+    </section>
+    <div class="grid">
+      <section class="card panel"><div class="panel-title"><div><h2>Recent scan activity</h2><p>A complete record of when and how your devices were scanned.</p></div><div class="filters"><input class="search" id="search" type="search" placeholder="Search devices…" aria-label="Search devices"><select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option>Safe</option><option>Review</option><option>Blocked</option></select></div></div>
+        <div class="table-scroll"><table><thead><tr><th>Device</th><th>Scan type</th><th>Date &amp; time</th><th>Status</th><th></th></tr></thead><tbody id="scanRows"></tbody></table></div>
+      </section>
+      <aside>
+        <section class="card panel"><div class="panel-title"><div><h2>Scan frequency</h2><p>Activity over the last 7 days</p></div></div><div class="activity" id="chart" aria-label="Bar chart showing scans over seven days"></div><div class="days"><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span><span>Mon</span></div><div class="legend"><span><i class="dot"></i>Scans logged</span><span><i class="dot light"></i>Daily activity</span></div></section>
+        <section class="insight"><div class="mini">Privacy note</div><h3>Know what touched your device.</h3><p>Add the source, scan type and outcome each time you receive a scan alert. Your notes create a clear audit trail.</p><button id="learn">Learn how tracking works →</button></section>
+      </aside>
+    </div>
+  </main>
+</div>
+<dialog id="scanDialog"><form class="modal" id="scanForm"><div class="modal-head"><div><div class="eyebrow">New activity</div><h2>Document a device scan</h2></div><button class="close" type="button" aria-label="Close">×</button></div><div class="form-grid">
+  <div class="field"><label for="device">Device name</label><input id="device" required placeholder="e.g. MacBook Air"></div><div class="field"><label for="type">Scan type</label><select id="type"><option>Network discovery</option><option>Security check</option><option>Port scan</option><option>Bluetooth scan</option><option>Malware scan</option><option>Other</option></select></div>
+  <div class="field"><label for="source">Source</label><input id="source" required placeholder="e.g. Home router"></div><div class="field"><label for="status">Outcome</label><select id="status"><option>Safe</option><option>Review</option><option>Blocked</option></select></div>
+  <div class="field full"><label for="notes">Documentation / notes</label><textarea id="notes" rows="3" maxlength="2000" placeholder="What triggered the alert? What action did you take?"></textarea></div></div><div class="modal-actions"><button class="btn close cancel" type="button">Cancel</button><button class="btn primary" type="submit">Save scan record</button></div></form></dialog>
+<div class="toast" id="toast" role="status"></div>
+<script src="assets/scan-ledger.js" defer></script>
+</body>
+</html>
