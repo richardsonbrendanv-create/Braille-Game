@@ -7,34 +7,50 @@ param(
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $index = Join-Path $root "index.html"
+$script = Join-Path $root "northstar.js"
 if (-not (Test-Path -LiteralPath $index)) {
     Write-Error "index.html was not found next to the Northstar launcher."
     exit 1
 }
+if (-not (Test-Path -LiteralPath $script)) {
+    Write-Error "northstar.js was not found next to the Northstar launcher."
+    exit 1
+}
 
-$prefix = "http://localhost:$Port/"
-$listener = [System.Net.HttpListener]::new()
-$listener.Prefixes.Add($prefix)
-
-try {
-    $listener.Start()
-} catch {
-    Write-Host "Northstar could not start on port $Port." -ForegroundColor Red
-    Write-Host "Close another Northstar window or run: .\northstar.cmd 8878"
+$requestedPort = $Port
+$listener = $null
+foreach ($candidate in $requestedPort..($requestedPort + 20)) {
+    $candidateListener = [System.Net.HttpListener]::new()
+    $candidatePrefix = "http://localhost:$candidate/"
+    $candidateListener.Prefixes.Add($candidatePrefix)
+    try {
+        $candidateListener.Start()
+        $listener = $candidateListener
+        $Port = $candidate
+        $prefix = $candidatePrefix
+        break
+    } catch {
+        $candidateListener.Close()
+    }
+}
+if (-not $listener) {
+    Write-Host "Northstar could not find an open port from $requestedPort to $($requestedPort + 20)." -ForegroundColor Red
+    Write-Host "Close older Northstar terminal windows and try again."
     exit 1
 }
 
 Write-Host ""
 Write-Host "  NORTHSTAR" -ForegroundColor Green
 Write-Host "  Running at $prefix" -ForegroundColor White
+if ($Port -ne $requestedPort) {
+    Write-Host "  Port $requestedPort was busy, so this fresh copy is using port $Port." -ForegroundColor Yellow
+}
 Write-Host "  Keep this window open. Press Ctrl+C to stop." -ForegroundColor DarkGray
 Write-Host ""
 
 if (-not $NoBrowser) {
     Start-Process $prefix
 }
-
-$csp = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
 
 try {
     while ($listener.IsListening) {
@@ -63,18 +79,18 @@ try {
             $context.Response.Close()
             continue
         }
-        if ($path -ne "/" -and $path -ne "/index.html") {
+        if ($path -ne "/" -and $path -ne "/index.html" -and $path -ne "/northstar.js") {
             $context.Response.StatusCode = 404
             $context.Response.Close()
             continue
         }
 
-        $body = [System.IO.File]::ReadAllBytes($index)
+        $asset = if ($path -eq "/northstar.js") { $script } else { $index }
+        $body = [System.IO.File]::ReadAllBytes($asset)
         $response = $context.Response
         $response.StatusCode = 200
-        $response.ContentType = "text/html; charset=utf-8"
+        $response.ContentType = if ($path -eq "/northstar.js") { "application/javascript; charset=utf-8" } else { "text/html; charset=utf-8" }
         $response.ContentLength64 = $body.Length
-        $response.Headers.Add("Content-Security-Policy", $csp)
         $response.Headers.Add("Referrer-Policy", "no-referrer")
         $response.Headers.Add("X-Content-Type-Options", "nosniff")
         $response.Headers.Add("X-Frame-Options", "DENY")

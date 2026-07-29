@@ -14,6 +14,12 @@ if not exist "%~dp0northstar.ps1" (
   pause
   exit /b 1
 )
+if not exist "%~dp0northstar.js" (
+  echo ERROR: northstar.js was not found.
+  echo Download and extract the complete updated Northstar folder.
+  pause
+  exit /b 1
+)
 
 set "PORT=8765"
 if not "%~1"=="" set "PORT=%~1"

@@ -7,9 +7,6 @@ browser's local storage. The included local server retrieves the latest availabl
 quotes through its same-origin API, avoiding browser cross-origin restrictions,
 and retains the last known snapshot when an internet connection is unavailable.
 Northstar also tracks a configurable savings balance and compound annual rate.
-browser's local storage. The dashboard attempts to load the latest available
-quotes and falls back to a bundled offline snapshot when a quote service is not
-reachable.
 
 ## Windows
 
@@ -22,11 +19,10 @@ exist on Windows.
 3. Double-click **`northstar.cmd`** to open Northstar.
 4. Keep the Northstar terminal window open while using the dashboard. Press
    **Ctrl+C** in that window when you are finished.
-3. Double-click **`scan-ledger.cmd`** to open Northstar.
 
 Do not run the launcher from inside the ZIP preview. Choose **Extract All** first.
-The app is a single, self-contained `index.html`, so Windows can open it
-reliably without separate asset files or an installation.
+Keep `index.html`, `northstar.js`, `northstar.cmd`, and `northstar.ps1` together
+in the extracted folder. No installation is required.
 
 Alternatively, open PowerShell inside the extracted folder and run:
 
@@ -36,18 +32,16 @@ Alternatively, open PowerShell inside the extracted folder and run:
 
 Do not run `./northstar` in PowerShell; that file is the macOS/Linux launcher.
 The Windows launcher uses Windows PowerShell to start Northstar on your computer at
-The Windows launcher uses Windows PowerShell to start Northstar securely at
 <http://localhost:8765/> and opens it in your default browser. It does not
 require Python, Node.js, npm, or an installation step.
 
-If port 8765 is already being used, choose another one from PowerShell:
+If port 8765 is already being used by an older Northstar window, the launcher
+automatically selects the next available port and opens that address. You can
+also request another starting port from PowerShell:
 
 ```powershell
 .\northstar.cmd 8878
 ```
-Do not run `./scan-ledger` in PowerShell; that file is the macOS/Linux launcher.
-The Windows launcher opens the Northstar HTML app directly and does not require
-Python or an installation step.
 
 ## macOS and Linux
 
@@ -78,6 +72,11 @@ its executable permission, restore it once with `chmod +x northstar`, then run
 
 If the browser address starts with `file:///` or contains `AppData/Local/Temp`
 and a `.zip` filename, the dashboard was opened from a ZIP preview instead of
-through Northstar. Extract the entire ZIP, confirm `northstar.cmd` and
-`northstar.ps1` are present, then double-click `northstar.cmd`. The current UI
+through Northstar. Extract the entire ZIP, confirm `northstar.cmd`,
+`northstar.ps1`, and `northstar.js` are present, then double-click
+`northstar.cmd`. The current UI
 shows a **BUILD 07.29** badge and a warning whenever it detects direct file use.
+
+If the page still shows only dashes, close every older Northstar terminal window
+before launching again. The current Windows launcher detects a busy port and
+automatically opens a fresh copy on the next available port (for example, 8766).
