@@ -35,6 +35,7 @@ Alternatively, open PowerShell inside the extracted folder and run:
 ```
 
 Do not run `./northstar` in PowerShell; that file is the macOS/Linux launcher.
+The Windows launcher uses Windows PowerShell to start Northstar on your computer at
 The Windows launcher uses Windows PowerShell to start Northstar securely at
 <http://localhost:8765/> and opens it in your default browser. It does not
 require Python, Node.js, npm, or an installation step.
