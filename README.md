@@ -3,9 +3,10 @@
 Northstar is a polished, local-first stock market and portfolio dashboard. It
 tracks holdings, highlights the strongest and weakest daily movers, and presents
 scenario-based signals tied to recent market catalysts. Holdings remain in your
-browser's local storage. The dashboard attempts to load the latest available
-quotes and falls back to a bundled offline snapshot when a quote service is not
-reachable.
+browser's local storage. The included local server retrieves the latest available
+quotes through its same-origin API, avoiding browser cross-origin restrictions,
+and retains the last known snapshot when an internet connection is unavailable.
+Northstar also tracks a configurable savings balance and compound annual rate.
 
 ## Windows
 

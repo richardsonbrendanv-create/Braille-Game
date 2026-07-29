@@ -34,12 +34,35 @@ if (-not $NoBrowser) {
     Start-Process $prefix
 }
 
-$csp = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src https://query1.finance.yahoo.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+$csp = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
 
 try {
     while ($listener.IsListening) {
         $context = $listener.GetContext()
         $path = $context.Request.Url.AbsolutePath
+        if ($path -eq "/api/quotes") {
+            $quotes = @{}
+            $symbols = ($context.Request.QueryString["symbols"] -split "," | Select-Object -First 25)
+            foreach ($symbol in $symbols) {
+                $symbol = $symbol.ToUpper() -replace "[^A-Z0-9.\-]", ""
+                if (-not $symbol) { continue }
+                try {
+                    $url = "https://query1.finance.yahoo.com/v8/finance/chart/$symbol`?range=1d&interval=5m"
+                    $result = Invoke-RestMethod -Uri $url -TimeoutSec 8 -Headers @{"User-Agent"="Mozilla/5.0 Northstar/1.0"}
+                    $meta = $result.chart.result[0].meta
+                    $price = [double]$meta.regularMarketPrice
+                    $previous = if ($meta.chartPreviousClose) { [double]$meta.chartPreviousClose } else { [double]$meta.previousClose }
+                    if ($price -and $previous) { $quotes[$symbol] = @{price=$price; change=(($price-$previous)/$previous*100)} }
+                } catch { continue }
+            }
+            $json = [Text.Encoding]::UTF8.GetBytes((@{quotes=$quotes} | ConvertTo-Json -Depth 4 -Compress))
+            $context.Response.StatusCode = 200
+            $context.Response.ContentType = "application/json"
+            $context.Response.ContentLength64 = $json.Length
+            if ($context.Request.HttpMethod -ne "HEAD") { $context.Response.OutputStream.Write($json, 0, $json.Length) }
+            $context.Response.Close()
+            continue
+        }
         if ($path -ne "/" -and $path -ne "/index.html") {
             $context.Response.StatusCode = 404
             $context.Response.Close()
