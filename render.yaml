@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: northstar-market-dashboard
+    runtime: python
+    buildCommand: python -m py_compile northstar
+    startCommand: ./northstar --host 0.0.0.0 --no-browser
+    healthCheckPath: /api/health
+    autoDeploy: true
