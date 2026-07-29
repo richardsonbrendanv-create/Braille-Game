@@ -34,6 +34,8 @@ if (-not $NoBrowser) {
     Start-Process $prefix
 }
 
+$csp = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+
 try {
     while ($listener.IsListening) {
         $context = $listener.GetContext()
@@ -72,6 +74,7 @@ try {
         $response.StatusCode = 200
         $response.ContentType = "text/html; charset=utf-8"
         $response.ContentLength64 = $body.Length
+        $response.Headers.Add("Content-Security-Policy", $csp)
         $response.Headers.Add("Referrer-Policy", "no-referrer")
         $response.Headers.Add("X-Content-Type-Options", "nosniff")
         $response.Headers.Add("X-Frame-Options", "DENY")
