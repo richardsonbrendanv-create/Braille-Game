@@ -65,3 +65,11 @@ The following server options are available on macOS and Linux:
 The `northstar` launcher is executable after cloning. If ZIP extraction removes
 its executable permission, restore it once with `chmod +x northstar`, then run
 `./northstar`. The older `scan-ledger` command remains as a compatibility alias.
+
+## Troubleshooting an old or offline-looking copy
+
+If the browser address starts with `file:///` or contains `AppData/Local/Temp`
+and a `.zip` filename, the dashboard was opened from a ZIP preview instead of
+through Northstar. Extract the entire ZIP, confirm `northstar.cmd` and
+`northstar.ps1` are present, then double-click `northstar.cmd`. The current UI
+shows a **BUILD 07.29** badge and a warning whenever it detects direct file use.
