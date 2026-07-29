@@ -8,14 +8,6 @@ quotes through its same-origin API, avoiding browser cross-origin restrictions,
 and retains the last known snapshot when an internet connection is unavailable.
 Northstar also tracks a configurable savings balance and compound annual rate.
 
-## Public website deployment
-
-Northstar includes a Render Blueprint for publishing the dashboard and its live
-quote API as a public HTTPS website. Follow [`DEPLOYMENT.md`](DEPLOYMENT.md) to
-connect the repository and receive a public `onrender.com` address. Deployment
-requires a hosting account because this repository cannot create or own one on
-your behalf.
-
 ## Windows
 
 The project must first be downloaded or cloned onto your computer. The path
